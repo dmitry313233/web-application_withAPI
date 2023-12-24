@@ -13,10 +13,9 @@ class Factory(models.Model):
     title_product = models.CharField(max_length=70, verbose_name='Название продукта')
     model_product = models.CharField(**NULLABLE, max_length=30, verbose_name='Модель продукта')
     product_launch_date = models.DateField(auto_now=True, verbose_name='Дата выхода продукта на рынок')
-    debt = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Задолженность')  # раздуплить что это
+    debt = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Задолженность')
     time_create = models.DateTimeField(auto_now=True, verbose_name='Время создания')
 
-    #provider = models.ForeignKey('Factory', on_delete=models.CASCADE, verbose_name='Поставщик')  # раздуплить что это
 
     def __str__(self):
         return (f'{self.name}, {self.country}, {self.city}, {self.title_product}, {self.product_launch_date}, '
@@ -37,10 +36,10 @@ class RetailNetwork(models.Model):
     title_product = models.CharField(max_length=70, verbose_name='Название продукта')
     model_product = models.CharField(max_length=30, **NULLABLE, verbose_name='Модель продукта')
     product_launch_date = models.DateField(auto_now=True, verbose_name='Дата выхода продукта на рынок')
-    debt = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Задолженность')  # раздуплить что это   +
+    debt = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Задолженность')
     time_create = models.DateTimeField(auto_now=True, verbose_name='Время создания')
 
-    provider = models.ForeignKey('Factory', on_delete=models.CASCADE, verbose_name='Поставщик')  # раздуплить что это
+    provider = models.ForeignKey('Factory', on_delete=models.CASCADE, verbose_name='Поставщик')
 
     def __str__(self):
         return (f'{self.name}, {self.country}, {self.number_home}, {self.title_product}, {self.product_launch_date}, '
@@ -61,10 +60,12 @@ class IndividualEntrepreneur(models.Model):
     title_product = models.CharField(max_length=70, verbose_name='Название продукта')
     model_product = models.CharField(max_length=30, **NULLABLE, verbose_name='Модель продукта')
     product_launch_date = models.DateField(auto_now=True, verbose_name='Дата выхода продукта на рынок')
-    debt = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Задолженность')  # раздуплить что это   +
+    debt = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Задолженность')
     time_create = models.DateTimeField(auto_now=True, verbose_name='Время создания')
 
-    provider = models.ForeignKey('RetailNetwork', on_delete=models.CASCADE, verbose_name='Поставщик')  # раздуплить что это
+    provider = models.OneToOneField('RetailNetwork', **NULLABLE, on_delete=models.CASCADE, verbose_name='Поставщик')
+    factory = models.OneToOneField('Factory', **NULLABLE, on_delete=models.CASCADE, verbose_name='Поставщик')
+
 
     def __str__(self):
         return (f'{self.name}, {self.email}, {self.country}, {self.city}, {self.street}, {self.title_product},'
